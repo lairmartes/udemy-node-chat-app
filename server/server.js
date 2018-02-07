@@ -11,10 +11,20 @@ var io = socketIO(server);
 
 app.use(express.static(publicPath));
 
-io.on('connection', (socket) => {
+io.on('connection', function(socket) {
     console.log('New user connected');
 
-    socket.on('disconnect', (socket) => {
+    socket.emit('newMessage', {
+        from: 'Yuri',
+        text: 'Let\'s wake up early mornzzzzz.',
+        createAt: 123
+    });
+
+    socket.on('createMessage', (message) => {
+        console.log('createMessage', message);
+    });
+
+    socket.on('disconnect', function(socket) {
         console.log('User disconnected from browser');
     });
 });
